@@ -8,7 +8,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="App min-h-screen">
+      <div className="App">
         <WeeklyCalendar />
       </div>
     </QueryClientProvider>
