@@ -125,80 +125,79 @@ const WeeklyCalendar: React.FC = () => {
   }, [selectedDate, reloadWeek, handleModalClose]);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 min-h-screen">
-      <div className="bg-white rounded-lg border border-gray-200 p-8">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-semibold text-purple-600">
-            Weekly Scheduler
-          </h1>
-          <p className="text-gray-600 mt-2">Create recurring slots • Max 2 slots per day</p>
-        </div>
+    <div className="max-w-6xl mx-auto p-4">
+      <div className="text-center mb-6">
+        <h1 className="text-xl font-medium text-gray-800 mb-1">
+          Weekly Scheduler
+        </h1>
+        <p className="text-xs text-gray-500">Create recurring slots • Max 2 slots per day</p>
+      </div>
 
-        <div className="space-y-8">
-          {weeks.map((week, weekIndex) => {
-            const weekStart = format(week, 'yyyy-MM-dd');
-            const weekSlots = allWeekSlots[weekStart] || {};
-            const weekDays = Array.from({ length: 7 }, (_, i) => addDays(week, i));
+      <div className="space-y-6">
+        {weeks.map((week, weekIndex) => {
+          const weekStart = format(week, 'yyyy-MM-dd');
+          const weekSlots = allWeekSlots[weekStart] || {};
+          const weekDays = Array.from({ length: 7 }, (_, i) => addDays(week, i));
 
-            return (
-              <div key={weekStart} className="border-b border-purple-200 pb-8 last:border-b-0">
-                <h2 className="text-xl font-bold text-purple-700 mb-6 text-center">
+          return (
+            <div key={weekStart} className="border border-gray-200 rounded-lg overflow-hidden">
+              <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                <h2 className="text-sm font-medium text-gray-700 text-center">
                   {format(week, 'MMM dd')} - {format(addDays(week, 6), 'MMM dd, yyyy')}
                 </h2>
-                
-                <div className="grid grid-cols-7 gap-4">
-                  {weekDays.map((day) => {
-                    const dateStr = format(day, 'yyyy-MM-dd');
-                    const daySlots = weekSlots[dateStr] || [];
-                    
-                    return (
-                      <div key={dateStr} className="border-2 border-purple-200/50 rounded-xl p-4 bg-gradient-to-br from-white to-purple-50/30 hover:from-purple-50/50 hover:to-purple-100/30 min-h-40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-200/50 hover:border-purple-300/50">
-                        <div className="flex justify-between items-center mb-3">
-                          <div>
-                            <h3 className="font-bold text-purple-700 text-lg">{format(day, 'EEE')}</h3>
-                            <p className="text-sm text-purple-500 font-medium">{format(day, 'MMM dd')}</p>
-                          </div>
-                          {daySlots.length < 2 && (
-                            <button
-                              onClick={() => handleAddSlot(dateStr)}
-                              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white text-sm font-bold py-2 px-3 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-                            >
-                              + Add
-                            </button>
-                          )}
-                        </div>
-                        
-                        <div className="space-y-2">
-                          {daySlots.map((slot) => (
-                            <SlotCard
-                              key={slot.id}
-                              slot={slot}
-                              date={dateStr}
-                              onEdit={handleEditSlot}
-                              onDelete={handleDeleteSlot}
-                              disabled={deletingSlotId === slot.id || loading}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
               </div>
-            );
-          })}
-        </div>
-
-        {(loading || isFetching) && (
-          <div className="flex justify-center items-center py-8 bg-gradient-to-r from-purple-50 to-white rounded-xl mx-4 mb-4 border border-purple-200 shadow-md">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
-            <span className="ml-3 text-purple-700 font-semibold">Loading more weeks...</span>
-          </div>
-        )}
-
-        {/* Infinite scroll trigger area */}
-        <div className="h-96"></div>
+              
+              <div className="grid grid-cols-7 divide-x divide-gray-200">
+                {weekDays.map((day) => {
+                  const dateStr = format(day, 'yyyy-MM-dd');
+                  const daySlots = weekSlots[dateStr] || [];
+                  
+                  return (
+                    <div key={dateStr} className="p-3 min-h-32 bg-white hover:bg-gray-50">
+                      <div className="text-center mb-2">
+                        <div className="text-xs font-medium text-gray-600">{format(day, 'EEE')}</div>
+                        <div className="text-xs text-gray-500">{format(day, 'dd')}</div>
+                      </div>
+                      
+                      {daySlots.length < 2 && (
+                        <button
+                          onClick={() => handleAddSlot(dateStr)}
+                          className="w-full text-xs bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded mb-2 transition-colors"
+                        >
+                          Add
+                        </button>
+                      )}
+                      
+                      <div className="space-y-1">
+                        {daySlots.map((slot) => (
+                          <SlotCard
+                            key={slot.id}
+                            slot={slot}
+                            date={dateStr}
+                            onEdit={handleEditSlot}
+                            onDelete={handleDeleteSlot}
+                            disabled={deletingSlotId === slot.id || loading}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </div>
+
+      {(loading || isFetching) && (
+        <div className="flex justify-center items-center py-4 bg-gray-50 rounded border border-gray-200">
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
+          <span className="ml-2 text-gray-600 text-sm">Loading more weeks...</span>
+        </div>
+      )}
+
+      {/* Infinite scroll trigger area */}
+      <div className="h-96"></div>
 
       {isModalOpen && (
         <SlotModal
