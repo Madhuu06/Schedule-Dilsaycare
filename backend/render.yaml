@@ -1,0 +1,8 @@
+version: 2
+build:
+  commands:
+    - npm install
+    - npm run build
+    - npm run migrate
+start:
+  command: npm start
