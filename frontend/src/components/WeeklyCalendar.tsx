@@ -125,11 +125,13 @@ const WeeklyCalendar: React.FC = () => {
   }, [selectedDate, reloadWeek, handleModalClose]);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 text-center">Weekly Scheduler</h1>
-          <p className="text-gray-600 text-center mt-2">Create recurring slots • Max 2 slots per day</p>
+    <div className="max-w-6xl mx-auto p-6 min-h-screen">
+      <div className="bg-white rounded-lg border border-gray-200 p-8">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-semibold text-purple-600">
+            Weekly Scheduler
+          </h1>
+          <p className="text-gray-600 mt-2">Create recurring slots • Max 2 slots per day</p>
         </div>
 
         <div className="space-y-8">
@@ -139,8 +141,8 @@ const WeeklyCalendar: React.FC = () => {
             const weekDays = Array.from({ length: 7 }, (_, i) => addDays(week, i));
 
             return (
-              <div key={weekStart} className="border-b border-gray-200 pb-8 last:border-b-0">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">
+              <div key={weekStart} className="border-b border-purple-200 pb-8 last:border-b-0">
+                <h2 className="text-xl font-bold text-purple-700 mb-6 text-center">
                   {format(week, 'MMM dd')} - {format(addDays(week, 6), 'MMM dd, yyyy')}
                 </h2>
                 
@@ -150,16 +152,16 @@ const WeeklyCalendar: React.FC = () => {
                     const daySlots = weekSlots[dateStr] || [];
                     
                     return (
-                      <div key={dateStr} className="border rounded-lg p-4 bg-gray-50 min-h-40">
+                      <div key={dateStr} className="border-2 border-purple-200/50 rounded-xl p-4 bg-gradient-to-br from-white to-purple-50/30 hover:from-purple-50/50 hover:to-purple-100/30 min-h-40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-200/50 hover:border-purple-300/50">
                         <div className="flex justify-between items-center mb-3">
                           <div>
-                            <h3 className="font-semibold text-gray-800">{format(day, 'EEE')}</h3>
-                            <p className="text-sm text-gray-600">{format(day, 'MMM dd')}</p>
+                            <h3 className="font-bold text-purple-700 text-lg">{format(day, 'EEE')}</h3>
+                            <p className="text-sm text-purple-500 font-medium">{format(day, 'MMM dd')}</p>
                           </div>
                           {daySlots.length < 2 && (
                             <button
                               onClick={() => handleAddSlot(dateStr)}
-                              className="text-blue-500 hover:text-blue-600 text-sm font-medium"
+                              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white text-sm font-bold py-2 px-3 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
                             >
                               + Add
                             </button>
@@ -188,9 +190,9 @@ const WeeklyCalendar: React.FC = () => {
         </div>
 
         {(loading || isFetching) && (
-          <div className="flex justify-center items-center py-8 bg-gray-50 rounded-lg mx-4 mb-4">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-            <span className="ml-2 text-gray-600 font-medium">Loading more weeks...</span>
+          <div className="flex justify-center items-center py-8 bg-gradient-to-r from-purple-50 to-white rounded-xl mx-4 mb-4 border border-purple-200 shadow-md">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+            <span className="ml-3 text-purple-700 font-semibold">Loading more weeks...</span>
           </div>
         )}
 
