@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config();
 
-const environment = process.env.NODE_ENV || 'development';
+const environment = (process.env.NODE_ENV || 'development') as 'development' | 'production';
 
 const config = {
   development: {
@@ -49,6 +49,6 @@ const config = {
   }
 };
 
-const db = knex(config[environment]);
+const db = knex(config[environment as keyof typeof config]);
 
 export default db;
