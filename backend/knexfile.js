@@ -9,10 +9,10 @@ module.exports = {
     client: 'postgresql',
     connection: {
       host: process.env.DB_HOST || 'localhost',
-      port: process.env.DB_PORT || 5432,
+      port: parseInt(process.env.DB_PORT) || 5432,
       database: process.env.DB_NAME || 'scheduler_db',
       user: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASSWORD || 'password'
+      password: String(process.env.DB_PASSWORD || 'password')
     },
     migrations: {
       directory: './src/database/migrations',
@@ -26,7 +26,16 @@ module.exports = {
 
   production: {
     client: 'postgresql',
-    connection: process.env.DATABASE_URL + '?ssl=true',
+    connection: {
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT) || 5432,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: String(process.env.DB_PASSWORD),
+      ssl: {
+        rejectUnauthorized: false
+      }
+    },
     migrations: {
       directory: './dist/database/migrations',
       extension: 'js'
