@@ -1,47 +1,50 @@
-# 📅 Weekly Scheduler App
+# Weekly Scheduler
 
-A modern, full-stack weekly scheduling application built with React, Node.js, and PostgreSQL. Features recurring slot management, date-specific exceptions, and infinite scroll for seamless week navigation.
+A professional weekly scheduling application with recurring slot management and exception handling capabilities.
 
-## 🌟 Features
+## Overview
 
-### Core Functionality
-- **📅 Weekly Calendar View** - Clean, intuitive weekly calendar interface
-- **🔄 Recurring Slots** - Create slots that repeat weekly on specific days
-- **📝 Date-Specific Exceptions** - Modify or delete individual slot instances without affecting the recurring pattern
-- **⚡ Infinite Scroll** - Seamlessly load more weeks as you scroll
-- **📱 Responsive Design** - Works perfectly on desktop and mobile devices
+Weekly Scheduler is a full-stack web application designed for efficient weekly schedule management. The application supports recurring slots with intelligent exception handling, allowing users to modify specific dates without affecting the overall recurring pattern.
 
-### Smart Slot Management
-- **🎯 Slot Limits** - Maximum 2 slots per day to prevent overcrowding
-- **✏️ Easy Editing** - Click to edit slot times, titles, and descriptions
-- **🗑️ Flexible Deletion** - Delete specific dates or entire recurring patterns
-- **🔄 Exception Handling** - Smart system that preserves recurring patterns while allowing date-specific changes
+## Key Features
 
-### User Experience
-- **⚡ Fast Loading** - Optimized database queries and caching
-- **🎨 Clean UI** - Modern Tailwind CSS design
-- **📊 Visual Feedback** - Loading states and smooth transitions
-- **🔍 No Clutter** - Clean interface without debug information
-- ✅ **Responsive Design**: Works on desktop and mobile
-- ✅ **Real-time Updates**: Optimistic UI updates for better UX
+**Weekly Calendar Interface**
+- Clean grid-based weekly view
+- Infinite scroll navigation through weeks
+- Responsive design for desktop and mobile
 
-## 🛠️ Tech Stack
+**Advanced Slot Management**
+- Recurring slot creation with weekly patterns
+- Date-specific exceptions for modified or deleted slots
+- Intelligent constraint system (maximum 2 slots per day)
+- Real-time slot editing and deletion
 
-### Frontend
+**Modern Architecture**
+- TypeScript-first development
+- RESTful API design
+- Optimized database queries with proper indexing
+- Exception-based recurring slot system
+
+## Technology Stack
+
+**Frontend**
 - React 18 with TypeScript
-- TailwindCSS for styling
-- TanStack React Query for state management
-- Axios for API calls
-- date-fns for date handling
+- Tailwind CSS for styling
+- TanStack React Query for data management
+- date-fns for date manipulation
 
-### Backend
-- Node.js with Express
-- TypeScript
-- PostgreSQL database
-- Knex.js for migrations and queries
+**Backend**
+- Node.js with Express framework
+- TypeScript implementation
+- PostgreSQL database with Knex.js ORM
 - Comprehensive error handling and validation
 
-## 📁 Project Structure
+**Deployment**
+- Frontend: Netlify
+- Backend: Render
+- Database: Render PostgreSQL
+
+## Project Structure
 
 ```
 scheduler-app/
@@ -49,68 +52,60 @@ scheduler-app/
 │   ├── src/
 │   │   ├── components/    # React components
 │   │   ├── services/      # API service layer
-│   │   ├── types/         # TypeScript types
+│   │   ├── types/         # TypeScript definitions
 │   │   └── hooks/         # Custom React hooks
 ├── backend/               # Node.js API server
 │   ├── src/
 │   │   ├── controllers/   # Request handlers
 │   │   ├── services/      # Business logic
-│   │   ├── models/        # Data access layer
-│   │   ├── database/      # Migrations and config
-│   │   └── types/         # TypeScript types
+│   │   ├── models/        # Data models
+│   │   ├── database/      # Database configuration
+│   │   └── types/         # TypeScript definitions
 └── README.md
 ```
 
-## � Quick Start
+## Live Application
+
+- **Frontend**: https://dilsaycare-schedule.netlify.app
+- **Backend API**: https://schedule-dilsaycare-2.onrender.com/api
+
+## Local Development
 
 ### Prerequisites
-- Node.js (v18+)
-- PostgreSQL (v12+)
-- npm or yarn
+- Node.js 18+
+- PostgreSQL 12+
+- npm package manager
 
-### 1. Clone & Setup
-```bash
-git clone <repository-url>
-cd scheduler-app
-```
-
-### 2. Backend Setup
+### Backend Setup
 ```bash
 cd backend
 npm install
 
-# Copy environment file
+# Configure environment variables
 cp .env.example .env
+# Update .env with your database credentials
 
-# Update .env with your database credentials:
-# DB_HOST=localhost
-# DB_PORT=5432
-# DB_NAME=scheduler_db
-# DB_USER=postgres
-# DB_PASSWORD=your_password
-
-# Run migrations
+# Initialize database
 npm run migrate
 
 # Start development server
 npm run dev
 ```
 
-### 3. Frontend Setup
+### Frontend Setup
 ```bash
-cd ../frontend
+cd frontend
 npm install
 
 # Start development server
 npm start
 ```
 
-### 4. Access the Application
+### Local Access
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:5000
-- Health Check: http://localhost:5000/health
 
-## 📊 Database Schema
+## Database Schema
 
 ### Slots Table
 ```sql
@@ -130,20 +125,17 @@ slots (
 )
 ```
 
-## � API Endpoints
+## API Endpoints
 
-### Slots
+### Slots Management
 - `POST /api/slots` - Create a new recurring slot
 - `GET /api/slots/week?weekStart=YYYY-MM-DD` - Get slots for a specific week
 - `PUT /api/slots/:id` - Update a slot (creates exception)
 - `DELETE /api/slots/:id` - Delete a slot or create delete exception
 
-### Health Check
-- `GET /health` - Server health status
+## Recurring Logic
 
-## 💡 How It Works
-
-### Recurring Logic
+### How It Works
 1. **Create Slot**: When you create a slot on a specific day, it automatically repeats every week on that same day
 2. **Edit Exception**: Editing a specific instance creates an exception for that date only
 3. **Delete Exception**: Deleting a specific instance creates a "deleted" exception for that date
@@ -155,67 +147,41 @@ slots (
 - Exceptions override recurring slots for specific dates
 - Soft deletes allow reverting changes
 
-## 🌐 Deployment
+## Deployment Architecture
 
-### Backend (Render)
-1. Connect your GitHub repository to Render
-2. Set environment variables:
-   ```
-   NODE_ENV=production
-   DATABASE_URL=postgresql://[render-postgres-url]
-   ALLOWED_ORIGINS=https://your-frontend-domain.vercel.app
-   ```
-3. Build command: `npm install && npm run build`
-4. Start command: `npm start`
+The application follows a modern three-tier architecture:
 
-### Frontend (Vercel)
-1. Connect your GitHub repository to Vercel
-2. Set environment variable:
-   ```
-   REACT_APP_API_URL=https://your-backend-domain.onrender.com/api
-   ```
-3. Deploy from the `frontend` folder
+1. **Presentation Layer**: React frontend deployed on Netlify
+2. **Application Layer**: Node.js API server deployed on Render
+3. **Data Layer**: PostgreSQL database hosted on Render
 
-### Database (Render PostgreSQL)
-1. Create a PostgreSQL database on Render
-2. Copy the connection string to your backend environment variables
-3. Migrations run automatically on deployment
+### Environment Configuration
 
-## 📝 Assignment Requirements Met
-
-✅ **Recurring weekly slots system**  
-✅ **Exception handling for modified slots**  
-✅ **React + TypeScript + TailwindCSS frontend**  
-✅ **Node.js + TypeScript + PostgreSQL backend**  
-✅ **REST API endpoints**  
-✅ **Weekly calendar with infinite scroll**  
-✅ **Live deployment ready**  
-✅ **Maximum 2 slots per day enforcement**  
-✅ **Comprehensive error handling and validation**  
-
-## 🔗 Live Demo
-
-- **Frontend**: [Your Vercel URL]
-- **Backend API**: [Your Render URL]
-
-## 🧪 Testing
-
-### Backend
+**Backend Environment Variables**
 ```bash
-cd backend
-npm test
+NODE_ENV=production
+DB_HOST=your-database-host
+DB_NAME=your-database-name
+DB_USER=your-database-user
+DB_PASSWORD=your-database-password
+FRONTEND_URL=https://your-frontend-domain
+ALLOWED_ORIGINS=https://your-frontend-domain
 ```
 
-### Frontend
+**Frontend Environment Variables**
 ```bash
-cd frontend
-npm test
+REACT_APP_API_URL=https://your-backend-api-url
 ```
 
-## 📞 Support
+## Technical Highlights
 
-For questions about this assignment: admin@dilsaycare.in
+- **Exception-Based Architecture**: Maintains data integrity while allowing flexible modifications
+- **Optimized Queries**: Database indexes for efficient slot retrieval
+- **Infinite Scroll**: Performance-optimized week loading
+- **Type Safety**: Full TypeScript implementation across frontend and backend
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Error Handling**: Comprehensive validation and error management
 
 ---
 
-**Built with ❤️ for DilSayCare Take-Home Assignment**
+*Built with modern web technologies for efficient weekly schedule management.*
